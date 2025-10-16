@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContextLab - Verified Data Analysis for Journalists</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .nav {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 40px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .hero .subtitle {
+            font-size: 18px;
+            color: #a1a1aa;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .form-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 40px 40px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: #a1a1aa;
+        }
+
+        .form-card {
+            background: #1a1a1d;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #fafafa;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 14px;
+            letter-spacing: -0.1px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f0f10;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #0f0f0f;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #0f0f10;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: #0f0f0f;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+            color: #e4e4e7;
+            font-size: 14px;
+        }
+
+        .btn-submit {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 12px;
+        }
+
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .features-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #1a1a1d;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #a1a1aa;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding: 32px;
+            background: #0f0f10;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-section h3 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .data-item {
+            background: #1a1a1d;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .data-item strong {
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .data-item p {
+            color: #d4d4d8;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .source-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .source-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .source-link:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .cta-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 50px 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            border-radius: 20px;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            color: #bfdbfe;
+            margin-bottom: 24px;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #1e40af;
+            border: none;
+            padding: 18px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .subtitle {
+                font-size: 16px;
+            }
+
+            .form-card {
+                padding: 28px 20px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">ContextLab</div>
+        <button class="nav-btn">Get Started</button>
+    </nav>
+
+    <section class="hero">
+        <h1>Data-backed journalism.<br>Verified sources included.</h1>
+        <p class="subtitle">Transform your reporting with comprehensive data analysis and authoritative sources. Get the context you need, backed by verifiable research.</p>
+    </section>
+
+    <section class="form-section">
+        <div class="section-header">
+            <h2>Request Data Analysis</h2>
+            <p>Tell us what you're working on and the data you need</p>
+        </div>
+
+        <div class="form-card">
+            <form id="dataRequestForm">
+                <div class="form-group">
+                    <label for="storyTopic">Story Topic</label>
+                    <input type="text" id="storyTopic" placeholder="Rising costs of renewable energy in the Midwest" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNeeded">What data do you need?</label>
+                    <textarea id="dataNeeded" placeholder="Describe the statistics, trends, or context you're looking for. Be as specific as possible about the metrics, comparisons, or historical data that would strengthen your story." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeframe">Timeframe</label>
+                    <select id="timeframe" required>
+                        <option value="">Select timeframe</option>
+                        <option value="current">Current / Latest Available</option>
+                        <option value="last-month">Last Month</option>
+                        <option value="last-quarter">Last Quarter</option>
+                        <option value="last-year">Last Year</option>
+                        <option value="last-5-years">Last 5 Years</option>
+                        <option value="decade">Last Decade</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customDateRange" style="display: none;">
+                    <label for="customDates">Custom Date Range</label>
+                    <input type="text" id="customDates" placeholder="e.g., January 2020 - March 2024">
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Source Types</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="gov" name="sources" value="government">
+                            <label for="gov">Government Data</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="academic" name="sources" value="academic">
+                            <label for="academic">Academic Studies</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry" name="sources" value="industry">
+                            <label for="industry">Industry Reports</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ngo" name="sources" value="ngo">
+                            <label for="ngo">NGO / Think Tanks</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <input type="text" id="deadline" placeholder="Next Tuesday, End of week, ASAP">
+                </div>
+
+                <button type="submit" class="btn-submit">Generate Analysis</button>
+            </form>
+
+            <div id="resultSection" class="result-section">
+                <h3>Your Data Analysis</h3>
+                <div id="resultsContent"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="section-header">
+            <h2>Everything you need for data-driven reporting</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 11l3 3L22 4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>Verified Sources</h3>
+                <p>Every data point comes with direct links to authoritative sources including government databases, peer-reviewed research, and official reports for complete verification.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>Fast Turnaround</h3>
+                <p>Meet tight deadlines without sacrificing accuracy. Get comprehensive data analysis delivered quickly so you can focus on your story, not endless research.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="12" y1="20" x2="12" y2="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="18" y1="20" x2="18" y2="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="6" y1="20" x2="6" y2="16" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>Contextual Analysis</h3>
+                <p>More than raw numbers. Receive meaningful insights, historical comparisons, and relevant benchmarks that add depth and context to your reporting.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to enhance your reporting?</h2>
+        <p>Join journalists who trust ContextLab for data-driven stories</p>
+        <button class="cta-btn">Start Your First Request</button>
+    </section>
+
+    <script>
+        const form = document.getElementById('dataRequestForm');
+        const resultSection = document.getElementById('resultSection');
+        const resultsContent = document.getElementById('resultsContent');
+        const submitButton = form.querySelector('.btn-submit');
+        const timeframeSelect = document.getElementById('timeframe');
+        const customDateRange = document.getElementById('customDateRange');
+
+        // Show/hide custom date range
+        timeframeSelect.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customDateRange.style.display = 'block';
+            } else {
+                customDateRange.style.display = 'none';
+            }
+        });
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const storyTopic = document.getElementById('storyTopic').value;
+            const dataNeeded = document.getElementById('dataNeeded').value;
+            const timeframe = document.getElementById('timeframe').value;
+            const customDates = document.getElementById('customDates').value;
+            const deadline = document.getElementById('deadline').value;
+            
+            const selectedSources = Array.from(document.querySelectorAll('input[name="sources"]:checked'))
+                .map(cb => cb.value);
+
+            // Show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading-spinner"></span>Generating Analysis...';
+            
+            // Hide previous results
+            resultSection.classList.remove('active');
+
+            try {
+                // Call the API
+                const response = await fetch('/api/generate-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        storyTopic,
+                        dataNeeded,
+                        timeframe: timeframe === 'custom' ? customDates : timeframe,
+                        sources: selectedSources,
+                        deadline
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to generate analysis');
+                }
+
+                // Display results
+                resultsContent.innerHTML = formatResults(data.analysis);
+                resultSection.classList.add('active');
+                
+                // Scroll to results
+                setTimeout(() => {
+                    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContent.innerHTML = `
+                    <div class="error-message">
+                        <strong>Error:</strong> ${error.message}. Please try again or contact support if the problem persists.
+                    </div>
+                `;
+                resultSection.classList.add('active');
+            } finally {
+                // Reset button
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Generate Analysis';
+            }
+        });
+
+        function formatResults(analysis) {
+            // Parse the analysis text and format it into HTML
+            return `
+                <div class="data-item">
+                    <div style="white-space: pre-wrap; line-height: 1.8;">${escapeHtml(analysis)}</div>
+                </div>
+                <p style="margin-top: 30px; color: #71717a; font-size: 14px; font-style: italic;">
+                    Analysis generated using AI. Please verify all data points and sources before publication.
+                </p>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
