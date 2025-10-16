@@ -66,7 +66,7 @@ Focus on accuracy and verifiability. Only cite real, existing sources.`;
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
             role: 'system',
