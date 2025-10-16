@@ -1,0 +1,41 @@
+{
+  "name": "contextlab-journalist-tool",
+  "version": "1.0.0",
+  "description": "Data analysis tool for journalists with AI-powered insights",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+```
+
+---
+
+## **.env.example**
+```
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+---
+
+## **.gitignore**
+```
+# Environment variables
+.env
+.env.local
+
+# Vercel
+.vercel
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
